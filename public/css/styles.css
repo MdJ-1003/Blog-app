@@ -1,0 +1,161 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Body */
+body {
+  background-color: #9faee9;
+  color: #2f3640;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Home Page */
+.home {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.subtitle {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.home-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #4078c0;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2f5ea8;
+}
+
+.btn-secondary {
+  background-color: #dcdde1;
+  color: #2f3640;
+}
+
+.btn-secondary:hover {
+  background-color: #c5c7cc;
+}
+
+/* Navbar */
+nav {
+  margin-bottom: 30px;
+}
+
+nav a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #4078c0;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Headings */
+h1, h2 {
+  margin-bottom: 10px;
+}
+
+/* Blog Card */
+.blog-card {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.blog-card p {
+  margin-bottom: 10px;
+}
+
+/* Buttons / Links */
+.action-links a {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #e84118;
+  font-size: 14px;
+}
+
+.action-links a:first-child {
+  color: #0097e6;
+}
+
+.action-links a:hover {
+  text-decoration: underline;
+}
+
+/* Forms */
+form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #dcdde1;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+input[type="submit"] {
+  padding: 10px 15px;
+  border: none;
+  background-color: #4078c0;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #2f5ea8;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}

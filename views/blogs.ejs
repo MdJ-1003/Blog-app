@@ -1,0 +1,23 @@
+<%- include("partials/header.ejs") %>
+
+<% if (blogPosts.length === 0) { %>
+    <h1>No Posts yet</h1>
+    <% } else { %>
+        <h1>All Blogs</h1>
+    <% } %>
+
+<% for(let i = 0; i < blogPosts.length; i++) { %>
+    <div class="blog-card">
+     <h2><%= blogPosts[i]["title"] %></h2>
+     <p><%= blogPosts[i]["body"] %></p>
+
+     <div class="action-links">
+     <% let id = blogPosts[i]["id"] %>
+     <a href="/edit/<%= id %>">Edit</a>
+     <a href="/delete/<%= id %>"
+        onclick="return confirm('Are you sure?')">Delete</a>
+        </div>
+    </div>
+<% } %>
+
+<%- include("partials/footer.ejs") %>
