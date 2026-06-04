@@ -1,7 +1,22 @@
 import express from "express";
+import pg from "pg";
+import dotenv from "dotenv";
+
 
 const app = express();
 const port = 3000;
+dotenv.config();
+
+const db = new pg.Client({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT
+})
+db.connect();
+
+console.log(process.env.DB_NAME);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"))
@@ -14,70 +29,67 @@ app.get("/create", (req, res) => {
   res.render("create.ejs");
 });
 
-const blogs = [];
-let id = 1;
+async function getBlogPosts() {
+  const result = await db.query('SELECT * FROM blogs ORDER BY id ASC;');
+  return result.rows;
+}
 
-app.post("/create", (req, res) => {
+app.post("/create", async (req, res) => {
   const title = req.body["title"];
   const body = req.body["body"];
 
-  blogs.push({
-    id,
-    title,
-    body,
-  });
-  id++;
+  await db.query('INSERT INTO blogs (title, body) VALUES ($1, $2);',[title, body]);
   res.redirect("/blogs");
 });
 
-app.get("/blogs", (req, res) => {
-  res.render("blogs.ejs", { blogPosts: blogs });
+app.get("/blogs", async (req, res) => {
+  const blogPosts = await getBlogPosts();
+  res.render("blogs.ejs", { blogPosts: blogPosts });
 });
 
-app.get("/edit/:id", (req, res) => {
-  const editingId = Number(req.params.id, 10);
-
-  let editingTitle = "";
-  let editingBody = "";
-  for (let j of blogs) {
-    if (j.id === editingId) {
-      editingTitle = j.title;
-      editingBody = j.body;
-      break;
-    }
-  }
+app.get("/edit/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await db.query('SELECT * FROM blogs WHERE id = $1', [id]);
+  const title = result.rows[0].title;
+  const body = result.rows[0].body;
+  console.log(result.rows)
+  console.log(result.rows[0].title)
+  
 
   res.render("edit.ejs", {
-    editingTitle1: editingTitle,
-    editingBody1: editingBody,
-  });
-});
-
-app.post("/edit/:id", (req, res) => {
-  const editingId = Number(req.params.id, 10);
-
-  for (let j of blogs) {
-    if (j.id === editingId) {
-      j.title = req.body.title;
-      j.body = req.body.body;
-      break;
+    editingTitle: title,
+    editingBody: body
+  })
+})
+ 
+app.post("/edit/:id", async (req, res) => {
+    const title = req.body.editingTitle;
+    const id = Number(req.params.id, 10);
+    const body = req.body.editingBody;
+        
+    try {
+      await db.query('UPDATE blogs SET title = $1, body = $2 WHERE id = $3;', [title, body, id]);
+      res.redirect("/blogs");
+    } catch (error) {
+      console.log(error)
     }
-  }
-
-  res.redirect("/blogs");
 });
 
-app.get("/delete/:id", (req, res) => {
-  const deletingId = Number(req.params.id, 10);
+app.get("/delete/:id", async (req, res) => {
+  const id = Number(req.params.id, 10);
 
-  const index = blogs.findIndex((item) => item.id === deletingId);
-
+  /*const index = blogs.findIndex((item) => item.id === deletingId);
   if (index !== -1) {
     // splice(startIndex, deleteCount)
     blogs.splice(index, 1);
-  }
+  }*/
+ try {
+   await db.query('DELETE FROM blogs WHERE id = $1', [id]);
+   res.redirect("/blogs")
+ } catch (error) {
+  console.log(error)
+ }
 
-  res.redirect("/blogs")
 });
 
 app.listen(port, () => {

@@ -1,9 +1,9 @@
 <%- include("partials/header.ejs") %>
 
 <form method="POST" >
-    <input type="text" name="title" value="<%= editingTitle1 || '' %>">
+    <input type="text" name="editingTitle" value="<%= editingTitle || '' %>">
 
-    <textarea type="text" name="body"><%= editingBody1 %></textarea>
+    <textarea type="text" name="editingBody"><%= editingBody %></textarea>
 
     <input type="submit" name="submit">
 </form>
