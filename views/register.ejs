@@ -1,0 +1,14 @@
+
+<form method="POST" >
+    <input type="email" name="email" placeholder="sample@gmail.com">
+
+    <input type="password" name="password" placeholder="">
+    
+    <input type="submit" name="submit">
+
+    <% if(locals.error) { %>
+        <%= error %>
+    <% } %>
+</form>
+
+<%- include("partials/footer.ejs") %>
